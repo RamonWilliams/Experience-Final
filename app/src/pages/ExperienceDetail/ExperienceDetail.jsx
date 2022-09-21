@@ -5,11 +5,13 @@ import { JwtContext } from '../../context/jwtContext';
 import "./ExperienceDetail.css"
 import PdiCard from '../../components/PdiCard/PdiCard';
 import {  Link} from 'react-router-dom'
+import Loader from '../../components/Loader/Loader';
 
 
 const ExperienceDetail = () => {
   const [actualUser, setActualUser] = useState({});
   const [showFav, setShowFav] = useState(true);
+  const [ showLoder, setShowLoder]=useState(false);
   const { user } = useContext(JwtContext);
   const { id } = useParams();
   const [experience, setExperience] = useState({});
@@ -91,10 +93,16 @@ const ExperienceDetail = () => {
       favoriteExperience: [...actualUser.favoriteExperience, experience._id]
     };
     if (actualUser.favoriteExperience.indexOf(experience._id) === -1) {
-      API.patch(`/user/${user._id}`, newExperience);
+      setShowFav(false)
+      API.patch(`/user/${user._id}`, newExperience).then(() => {
+        getFavorites();
+        setShowLoder(true)
+      }).then(() => {
+        setShowLoder(false)
+      })
     }
-getUser();
-getFavorites();
+
+
 
   }
 
@@ -106,9 +114,12 @@ getFavorites();
       favoriteExperience: newFavoriteExperience,
     };
     console.log(newFavoriteExperience)
-    API.patch(`/user/${user._id}`, newExperience); 
-    getUser() /* arreglar aqui, se clicka 2 veces*/
-    getFavorites();
+    setShowFav(true)
+    API.patch(`/user/${user._id}`, newExperience).then(( ) => {
+      getFavorites();
+    })
+   
+   
   }
 
 
@@ -121,8 +132,10 @@ getFavorites();
   }, []);
 
   return (
-
+    <>
+      {showLoder ? <Loader /> : null}
     <figure className='detail'>
+
       <div className='conteinerInfo'>
         <div className='imageDetail'>
           <img src={experience.image} alt={experience.name} />
@@ -152,7 +165,7 @@ getFavorites();
         
       </div>
     </figure>
-
+   </>
 
   );
 }

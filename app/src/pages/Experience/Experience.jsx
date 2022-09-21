@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { API } from "../../services/API";
 import ExperienceCard from '../../components/ExperienceCard/ExperienceCard';
 import "./Experience.css"
-import Loader from '../../components/Loader/Loader';
+
 
 
 
