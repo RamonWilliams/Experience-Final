@@ -16,14 +16,29 @@ const Login = () => {
     const formSubmit = (formData) => {
         API.post("/user/login", formData).then((res) => {
             localStorage.setItem("token", res.data.token);
-            localStorage.setItem("user", JSON.stringify(res.data.userInDb));
+        
             setJwt(res.data.token);
-            setUser(res.data.userInDb);
-            if (res.data.token) {
-                navigate("/experience");
-            }
-        });
+            return res.data
+            
+        }).then((user)=>{
+            getFavorites(user)           
+        }
+        )
     };
+    const getFavorites = async (response) =>{
+        API.get(`/user/username/${response.userInDb.username}`).then((res)=>{
+           const user = res.data.data.user[0];
+          localStorage.setItem("user", JSON.stringify(user));                   
+          setUser(user);
+          if (response.token){
+              navigate("/experience");
+          }
+
+          
+         
+        })
+      }
+
 
     return (
 
