@@ -14,8 +14,8 @@ const Pdi = () => {
   const filteredPdis = allPdis.filter(
     (pdi) =>
      
-    pdi.name?.toLowerCase().includes(filterWord)  ||
-    experience.location?.toLowerCase().includes(filterWord)   
+    pdi.name?.toLowerCase().includes(filterWord)  
+
     
   );
 

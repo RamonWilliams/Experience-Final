@@ -6,7 +6,7 @@ const { deleteFile } = require("../../middlewares/delete-file");
 
 const getAll = async (req, res, next) => {
   try {
-    const user = await User.find().populate("experiences");
+    const user = await User.find()
     return res.json({
       status: 200,
       message: "Recovered all user",

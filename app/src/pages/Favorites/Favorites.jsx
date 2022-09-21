@@ -11,13 +11,7 @@ const Favorites = () => {
     const { username } = useParams();
 console.log(user, username)
 
-    const getAllFavorites = async () => {
-      API.get(`/${user}/${username}`).then((res) => {
-          console.log("hOLA",res)
-        setAllFavorites(res.data.data.favoriteExperience);      
-      });
-    }
-
+    
     const getFavorites = () => {
      const userStorage = JSON.parse(localStorage.getItem("user"))
      const favorites = userStorage.favoriteExperience;
@@ -25,7 +19,7 @@ console.log(user, username)
     };
   
     useEffect(() => {
-      getAllFavorites()
+      getFavorites()
      
      
     }, []);
